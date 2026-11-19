@@ -1,0 +1,4 @@
+/* OSの権限ダイアログに表示する利用目的（英語）。日本語はja.lproj/InfoPlist.strings、既定値はInfo.plist */
+"NSCameraUsageDescription" = "The camera is used to take profile photos and photos to send in chats, and to scan QR codes.";
+"NSPhotoLibraryUsageDescription" = "Your photo library is used to choose profile photos, photos to send in chats, and photos and videos to add to albums.";
+"NSPhotoLibraryAddUsageDescription" = "Your photo library is used to save photos and videos from chats.";

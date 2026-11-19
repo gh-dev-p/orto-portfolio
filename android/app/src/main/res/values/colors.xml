@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- アプリアイコン（assets/icon/app_icon.png）の背景色と揃えたスプラッシュ画面用の色。 -->
+    <color name="launch_background">#E1DBE7</color>
+	<color name="ic_launcher_background">#E1DBE7</color>
+</resources>

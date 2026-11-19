@@ -1,0 +1,4 @@
+/* OSの権限ダイアログに表示する利用目的（日本語）。英語はen.lproj/InfoPlist.strings、既定値はInfo.plist */
+"NSCameraUsageDescription" = "プロフィール写真やトークで送る写真の撮影、QRコードの読み取りのためにカメラを使用します";
+"NSPhotoLibraryUsageDescription" = "プロフィール写真やトークで送る写真、アルバムに追加する写真・動画の選択のために写真ライブラリを使用します";
+"NSPhotoLibraryAddUsageDescription" = "トークの画像や動画を写真ライブラリに保存するために使用します";

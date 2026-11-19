@@ -1,0 +1,9 @@
+#include "Generated.xcconfig"
+FLUTTER_TARGET=lib/main_dev.dart
+// アプリ表示名（Info.plistのCFBundleDisplayNameから参照。Androidのapp_nameと対応）
+APP_DISPLAY_NAME=Orto Dev
+// 招待リンクのドメイン（Runner.entitlementsのAssociated Domainsから参照。lib/config/invite_links.dartと対応）
+INVITE_LINK_HOST=orto-dev.example.com
+INVITE_LINK_ALT_HOST=open-dev.example.com
+// 招待リンクのカスタムURLスキーム（Info.plistのCFBundleURLTypesから参照。lib/config/invite_links.dartと対応）
+APP_URL_SCHEME=orto-dev

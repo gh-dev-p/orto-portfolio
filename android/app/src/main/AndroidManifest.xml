@@ -1,0 +1,98 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- PRO-03でのカメラ撮影用（データ設計書7章）、およびQRC-01でのQRコード読み取り用
+         （機能仕様書4.4）。ギャラリー選択はAndroidのフォトピッカー経由のためランタイム権限不要。 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 機能仕様書4.9「プッシュ通知受信」：Android 13+ではPOST_NOTIFICATIONSの
+         ランタイム権限リクエストにこのマニフェスト宣言が必要（PushNotificationServiceが実行時に要求する）。 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- CHA-03でトークの画像を端末のアルバムに保存する（galパッケージ）。
+         Android 10（API 29）以降は権限不要のため、それより前の端末でのみ要求する。 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+    <application
+        android:label="@string/app_name"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                 the Android process has started. This theme is visible to the user
+                 while the Flutter UI initializes. After that, this theme continues
+                 to determine the Window background behind the Flutter UI. -->
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <!-- 招待リンクでアプリを開く（App Links）。ドメインはFlavorごとにbuild.gradle.ktsで決め、
+                 検証用のassetlinks.jsonは運営者のWebサイト（orto/public/.well-known/）に置く。 -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"/>
+                <data android:host="${inviteLinkHost}"/>
+                <data android:host="${inviteLinkAltHost}"/>
+                <data android:pathPrefix="/invite/"/>
+                <data android:pathPrefix="/group/"/>
+            </intent-filter>
+            <!-- 招待ページのボタンから確実にアプリを開くためのカスタムURLスキーム。
+                 orto://invite/{アカウントID}・orto://group/{招待トークン}、以前のQRコードのorto://friend/{アカウントID}。
+                 autoVerifyの対象にしないよう、App Linksのintent-filterとは分けて書く。スキームはFlavorごとにbuild.gradle.ktsで決める。 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="${appUrlScheme}"/>
+                <data android:host="invite"/>
+                <data android:host="group"/>
+                <data android:host="friend"/>
+            </intent-filter>
+        </activity>
+        <!-- プッシュ通知の既定の通知チャンネル（MainActivityで重要度「高」で作る）。送信側でチャンネルを
+             指定しない通知も、FCMの既定のチャンネル（ポップアップしない）ではなくこちらに出す。 -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="messages" />
+        <!-- 招待リンクはapp_linksパッケージで受け取るため、Flutter標準のディープリンク（Navigatorへのルートの追加）は使わない。 -->
+        <meta-data
+            android:name="flutter_deeplinking_enabled"
+            android:value="false" />
+        <!-- Don't delete the meta-data below.
+             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+    <!-- Required to query activities that can process text, see:
+         https://developer.android.com/training/package-visibility and
+         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+
+         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+        <!-- SET-01のお問い合わせ（mailto）・プライバシーポリシー/利用規約（https）を
+             url_launcherで起動するために必要。 -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="mailto"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
+    </queries>
+</manifest>

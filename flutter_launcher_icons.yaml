@@ -1,0 +1,19 @@
+# アプリアイコン自動生成の設定。実行：dart run flutter_launcher_icons
+# 元画像 assets/icon/app_icon.png（1024x1024・正方形PNG）を置いてから実行すると、
+# ios/Runner/Assets.xcassets/AppIcon.appiconset と android/app/src/main/res/mipmap-* を上書き生成する。
+# dev/prodフレーバーは main のリソースを共有するため、全環境で同じアイコンになる。
+flutter_launcher_icons:
+  image_path: "assets/icon/app_icon.png"
+  ios: true
+  # App Storeはアルファチャンネル（透過）付きの1024pxアイコンを拒否するため除去する。
+  remove_alpha_ios: true
+  android: true
+  # Android Adaptive Icon（Android 8.0+）。背景色をapp_icon.pngの地色（#E1DBE7）と揃え、
+  # 前景はapp_icon.pngからクマ部分だけを透過抽出してセーフゾーン内に収めたもの
+  # （assets/icon/app_icon_foreground.png）。これが無いとAndroid 12+の起動画面で
+  # システムが自動生成する白い円の台座がアイコンの背後に付いてしまう。
+  adaptive_icon_background: "#E1DBE7"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
+  # モノクロレイヤー（Android 13+のテーマアイコン用）。未設定だとPixel系ランチャーで
+  # 他アプリより一回り小さく縮小され、余白にシステムのテーマ色の円が入ってしまう。
+  adaptive_icon_monochrome: "assets/icon/app_icon_foreground.png"

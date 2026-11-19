@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通知チャンネル（MainActivity）の名前。端末の設定アプリの「通知」に表示される -->
+    <string name="notification_channel_messages_name">メッセージ</string>
+</resources>
